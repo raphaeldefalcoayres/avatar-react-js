@@ -1,0 +1,98 @@
+body{
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+* {
+  font-family: 'Press Start 2P', cursive; border-radius: 15px;
+}
+
+.container{
+  width:100%;
+  align-items: center; justify-content: center; height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 24px 0;
+}
+
+.box{
+  display: flex;
+  width: 1000px;
+  flex-direction: column;
+}
+
+.box-avatar{
+  display:flex; align-items: center; justify-content: center; margin: 16px;
+}
+
+.name-avatar{
+  font-size: 32px;
+  padding: 10px;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  margin-bottom: 16px;
+  border: 2px solid rgba(101, 201, 255, 0.8);
+  color: rgb(101, 201, 255);
+}
+
+.name-avatar:focus{
+  border: 2px solid rgba(101, 201, 255, 1);
+  outline: 0;
+}
+
+.name-avatar::placeholder {
+  color: rgba(101, 201, 255, 0.8);
+}
+
+.box-personalizations{
+  display:flex;
+  flex-direction: column;
+  flex:1;
+}
+
+.type-personalizations{
+  display: flex;
+  padding: 10px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.personalizations{
+  display: flex;
+  border: 2px solid rgba(101, 201, 255, 1);
+  padding: 10px;
+  height: 128px;
+  align-items: center;
+  margin: 10px 0;
+  gap: 10px;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.personalizations div{
+  cursor: pointer;
+}
+
+.item-type-personalization{
+  flex:1;
+  height: 32px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 12px;
+  text-align: center;
+}
+
+.circle-color {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
