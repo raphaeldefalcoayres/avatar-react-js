@@ -3,22 +3,22 @@ export const Avatar = {
     style:"circle",
   },
   create (options){
-    var svg = this._createAvataaar({...this.defaultOptions, ...options});
-    return svg;
+    var svg = this._createAvataaar({...this.defaultOptions, ...options})
+    return svg
   },
   setDefaultAvatar(options){
-    this.defaultOptions = options;
+    this.defaultOptions = options
   },
   getEditableTypes(){
-    return Object.keys(this.paths).filter((p)=>{return Object.keys(this.paths[p]).length > 1});
+    return Object.keys(this.paths).filter((p)=>{return Object.keys(this.paths[p]).length > 1})
   },
   _getChildOrDefault (obj, type, option){
     if(typeof obj[type][option] != 'undefined'){
-      return obj[type][option];
+      return obj[type][option]
     }else if(["facialHair", "accessories"].includes(type) && option === null){
-      return () => "";
+      return () => ""
     }else{
-      return (obj[type].default || obj[type][Object.keys(obj[type])[0]]);
+      return (obj[type].default || obj[type][Object.keys(obj[type])[0]])
     }
   },
   _getShape (type, option){
@@ -28,29 +28,29 @@ export const Avatar = {
     return this._getChildOrDefault(this.colors, type, option)
   },
   _createAvataaar (options) {
-    var _a;
-    let noseType = this.paths.nose.default;
-    let skinType = this.paths.skin.default;
-    let skinColor = this._getColor('skin', options.skin);
-    let [topType, topTypeIsHat, topTypeZIndex] = this._getTopType(options.top);
-    let facialHairType = this._getShape('facialHair', options.facialHair);
-    let facialHairColor = this._getColor('hair', options.facialHairColor);
-    let clotheType = this._getShape('clothing', options.clothing);
-    let clotheGraphicType = this._getShape('clothingGraphic', options.clothingGraphic);
-    let clotheColor = this._getColor('palette', options.clothingColor);
-    let eyeType = this._getShape('eyes', options.eyes);
-    let eyebrowType = this._getShape('eyebrows', options.eyebrows);
-    let mouthType = this._getShape('mouth', options.mouth);
-    let accessoriesType = this._getShape('accessories', options.accessories);
-    let accessoriesColor = this._getColor('palette', options.accessoriesColor);
-    let hatColor = this._getColor('palette', options.hatColor);
-    let hairColor = this._getColor('hair', options.hairColor);
+    var _a
+    let noseType = this.paths.nose.default
+    let skinType = this.paths.skin.default
+    let skinColor = this._getColor('skin', options.skin)
+    let [topType, , topTypeZIndex] = this._getTopType(options.top)
+    let facialHairType = this._getShape('facialHair', options.facialHair)
+    let facialHairColor = this._getColor('hair', options.facialHairColor)
+    let clotheType = this._getShape('clothing', options.clothing)
+    let clotheGraphicType = this._getShape('clothingGraphic', options.clothingGraphic)
+    let clotheColor = this._getColor('palette', options.clothingColor)
+    let eyeType = this._getShape('eyes', options.eyes)
+    let eyebrowType = this._getShape('eyebrows', options.eyebrows)
+    let mouthType = this._getShape('mouth', options.mouth)
+    let accessoriesType = this._getShape('accessories', options.accessories)
+    let accessoriesColor = this._getColor('palette', options.accessoriesColor)
+    let hatColor = this._getColor('palette', options.hatColor)
+    let hairColor = this._getColor('hair', options.hairColor)
     
     const group = (content, x, y) => {
-      return content.length > 0 ? `<g transform="translate(${x}, ${y})">${content}</g>` : '';
-    };
+      return content.length > 0 ? `<g transform="translate(${x}, ${y})">${content}</g>` : ''
+    }
     
-    const top = group(topType(hatColor, hairColor), 7, 0);
+    const top = group(topType(hatColor, hairColor), 7, 0)
     let content = `
     ${group(skinType(skinColor), 40, 36)}
     ${group(clotheType(clotheColor, clotheGraphicType()), 8, 170)}
@@ -63,10 +63,10 @@ export const Avatar = {
     ${1 === topTypeZIndex ? top : ''}
     ${accessoriesType ? group(accessoriesType(accessoriesColor), 69, 85) : ''}
     ${2 === topTypeZIndex ? top : ''}
-    `;
+    `
     if (options.style === 'circle') {
       // Create random id for the mask, solves bug in rerendering and cutting of half of the image on Firefox
-      let mask_id = Math.random().toString(36).substring(7);
+      let mask_id = Math.random().toString(36).substring(7)
       content = `
       ${(options.svgBackground)? `<path fill="${(options.svgBackground === true)? "#fff" : options.svgBackground}" d="M0 0h280v280H0z"/>` : ""}
       <path d="M260 160c0 66.274-53.726 120-120 120S20 226.274 20 160 73.726 40 140 40s120 53.726 120 120z" fill="${(_a = options.background) !== null && _a !== void 0 ? _a : this.colors.palette.blue01}"/>
@@ -76,71 +76,71 @@ export const Avatar = {
       <g mask="url(#${mask_id})">
       ${content}
       </g>
-      `;
+      `
     }
     else if (options.svgBackground) {
       content = `
       <path fill="${(options.svgBackground === true)? "#fff" : options.svgBackground}" d="M0 0h280v280H0z"/>
       ${content}
-      `;
+      `
     }
-    options.background = undefined;
+    options.background = undefined
     return `
     <svg ${(options.width)? `width="${options.width}"` : ""} ${(options.height)? `height="${options.height}"` : ""} viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
     ${content}
     </svg>
-    `;
+    `
   },
   
   _getTopType (option){
     switch(option){
       /* Long Hair */
-      case 'bigHair': return [this.paths.top.bigHair, false, 0];
-      case 'bob': return [this.paths.top.bob, false, 0];
-      case 'bun': return [this.paths.top.bun, false, 1];
-      case 'curly': return [this.paths.top.curly, false, 0];
-      case 'curvy': return [this.paths.top.curvy, false, 0];
-      case 'dreads': return [this.paths.top.dreads, false, 0];
-      case 'frida': return [this.paths.top.frida, false, 0];
-      case 'fro': return [this.paths.top.fro, false, 0];
-      case 'froAndBand': return [this.paths.top.froAndBand, false, 0];
-      case 'miaWallace': return [this.paths.top.miaWallace, false, 0];
-      case 'longButNotTooLong': return [this.paths.top.longButNotTooLong, false, 0];
-      case 'shavedSides': return [this.paths.top.shavedSides, false, 0];
-      case 'straight01': return [this.paths.top.straight01, false, 0];
-      case 'straight02': return [this.paths.top.straight02, false, 0];
-      case 'straightAndStrand': return [this.paths.top.straightAndStrand, false, 0];
+      case 'bigHair': return [this.paths.top.bigHair, false, 0]
+      case 'bob': return [this.paths.top.bob, false, 0]
+      case 'bun': return [this.paths.top.bun, false, 1]
+      case 'curly': return [this.paths.top.curly, false, 0]
+      case 'curvy': return [this.paths.top.curvy, false, 0]
+      case 'dreads': return [this.paths.top.dreads, false, 0]
+      case 'frida': return [this.paths.top.frida, false, 0]
+      case 'fro': return [this.paths.top.fro, false, 0]
+      case 'froAndBand': return [this.paths.top.froAndBand, false, 0]
+      case 'miaWallace': return [this.paths.top.miaWallace, false, 0]
+      case 'longButNotTooLong': return [this.paths.top.longButNotTooLong, false, 0]
+      case 'shavedSides': return [this.paths.top.shavedSides, false, 0]
+      case 'straight01': return [this.paths.top.straight01, false, 0]
+      case 'straight02': return [this.paths.top.straight02, false, 0]
+      case 'straightAndStrand': return [this.paths.top.straightAndStrand, false, 0]
       
       /* Short Hair */
-      case 'dreads01': return [this.paths.top.dreads01, false, 1];
-      case 'dreads02': return [this.paths.top.dreads02, false, 1];
-      case 'frizzle': return [this.paths.top.frizzle, false, 1];
-      case 'shaggy': return [this.paths.top.shaggy, false, 2];
-      case 'shaggyMullet': return [this.paths.top.shaggyMullet, false, 0];
-      case 'shortCurly': return [this.paths.top.shortCurly, false, 1];
-      case 'shortFlat': return [this.paths.top.shortFlat, false, 1];
-      case 'shortRound': return [this.paths.top.shortRound, false, 1];
-      case 'shortWaved': return [this.paths.top.shortWaved, false, 1];
-      case 'sides': return [this.paths.top.sides, false, 1];
-      case 'theCaesar': return [this.paths.top.theCaesar, false, 1];
+      case 'dreads01': return [this.paths.top.dreads01, false, 1]
+      case 'dreads02': return [this.paths.top.dreads02, false, 1]
+      case 'frizzle': return [this.paths.top.frizzle, false, 1]
+      case 'shaggy': return [this.paths.top.shaggy, false, 2]
+      case 'shaggyMullet': return [this.paths.top.shaggyMullet, false, 0]
+      case 'shortCurly': return [this.paths.top.shortCurly, false, 1]
+      case 'shortFlat': return [this.paths.top.shortFlat, false, 1]
+      case 'shortRound': return [this.paths.top.shortRound, false, 1]
+      case 'shortWaved': return [this.paths.top.shortWaved, false, 1]
+      case 'sides': return [this.paths.top.sides, false, 1]
+      case 'theCaesar': return [this.paths.top.theCaesar, false, 1]
       case 'theCaesarAndSidePart': return [this.paths.top.theCaesarAndSidePart, false, 1]
       
       /* Hats */
-      case 'hat': return [this.paths.top.hat, true, 0];
-      case 'winterHat01': return [this.paths.top.winterHat01, true, 2];
-      case 'winterHat02': return [this.paths.top.winterHat02, true, 2];
-      case 'winterHat03': return [this.paths.top.winterHat03, true, 2];
-      case 'winterHat04': return [this.paths.top.winterHat04, true, 2];
+      case 'hat': return [this.paths.top.hat, true, 0]
+      case 'winterHat01': return [this.paths.top.winterHat01, true, 2]
+      case 'winterHat02': return [this.paths.top.winterHat02, true, 2]
+      case 'winterHat03': return [this.paths.top.winterHat03, true, 2]
+      case 'winterHat04': return [this.paths.top.winterHat04, true, 2]
       
       /* Hijab */
-      case 'hijab': return [this.paths.top.hijab, true, 1];
+      case 'hijab': return [this.paths.top.hijab, true, 1]
       /* Turban */
-      case 'turban': return [this.paths.top.turban, true, 1];
+      case 'turban': return [this.paths.top.turban, true, 1]
       /* Eyepatch */
-      case 'eyepatch': return [this.paths.top.eyepatch, false, 1];
+      case 'eyepatch': return [this.paths.top.eyepatch, false, 1]
       
       /*If not found return default shortwaved*/
-      default: return [this.paths.top.shortWaved, false, 1];
+      default: return [this.paths.top.shortWaved, false, 1]
     }
   },
   
@@ -655,4 +655,4 @@ export const Avatar = {
       `,
     }
   }
-};
+}
