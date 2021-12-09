@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react"
+import SvgSaver from "svgsaver"
 
 import AvatarContext from "../../context/avatar/context"
 import { usePrevious } from "../../hooks/usePrevious"
@@ -7,6 +8,12 @@ import PersonalizationItemAvatar from "../PersonalizationItemAvatar"
 import PersonalizationItemColor from "../PersonalizationItemColor"
 
 function AvatarApp() {
+  const handleDownloadSvg = () => {
+    const svgsaver = new SvgSaver()
+    const svg = document.querySelector('#avatar')
+    svgsaver.asSvg(svg, 'avatar.svg')
+  }
+
   const { state, setState, options } = useContext(AvatarContext)
 
   const generateSvgAvatar = Avatar.create({ width: 280,height: 280, ...state })
@@ -58,6 +65,7 @@ function AvatarApp() {
       <div className="box-avatar">
         <div id="avatar" className={state.animationAvatar} dangerouslySetInnerHTML={{__html: generateSvgAvatar}}></div>
       </div>
+      <div className="download-svg" onClick={() => handleDownloadSvg()}>Fazer download</div>
       <div className="box-personalizations">
         <div className="type-personalizations">
           {
